@@ -1,0 +1,23 @@
+.column {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top !important;
+}
+
+.column:before {
+    font-size: 16px;
+    text-align: left;
+    display: block;
+}
+
+.column.es5:before {
+    content: "ECMAScript 5";
+}
+
+.column.es6:before {
+    content: "ECMAScript 6";
+}
+
+.column code {
+    font-size: 70%;
+}

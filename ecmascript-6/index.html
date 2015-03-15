@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - The HTML Presentation Framework</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
+        <link rel="stylesheet" href="css/custom.css">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+                    <h1>ECMAScript 6</h1>
+                    <h3>The future of JavaScript</h3>
+                    <p>
+                        <small><a href="http://rzegocki.pl">Igor Rzegocki</a> / <a href="http://twitter.com/ajgon">@ajgon</a></small>
+                    </p>
+				</section>
+                <section>
+                    <h2>Caution</h2>
+                    <p>
+                        This <strong>may</strong> change between today and the final ECMAScript&nbsp;6&nbsp;or&nbsp;7&nbsp;or&nbsp;2015 or&nbsp;whatever specification
+                    </p>
+                </section>
+                <section>
+                    <h1>Basic Syntax</h1>
+                </section>
+                <section>
+                    <h2>Literals</h2>
+                    <div class="fragment visible column es5">
+                        <pre><code data-trim>parseInt('11110111111', 2); // => 1983</code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>0b11110111111; // => 1983</code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>parseInt('3677', 8); // => 1983</code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>0o3677; // => 1983</code></pre>
+                    </div>
+                     <div class="fragment column">
+                        <pre><code data-trim>0x7BF; // => 1983</code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>0x7BF; // => 1983</code></pre>
+                    </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>Let's start with something small</li>
+                            <li>Hex was also i ES5</li>
+                        </ul>
+                    </aside>
+                </section>
+                <section>
+                    <h2>Template Strings</h2>
+                    <div class="fragment visible column es5">
+                        <pre><code data-trim>
+var all = 'work', no = 'PLAY';
+'All' + all + ' and no ' + no.toLowerCase() + "\n" +
+'makes Jack a dull boy...';
+// => All work a no play...
+//    makes Jack a dull boy
+                        </code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>
+var all = 'work', no = 'PLAY';
+`All ${all} and no ${no.toLowerCase()}
+makes Jack a dull boy`;
+// => All work and no play...
+//    makes Jack a dull boy
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var x = 90, y = 9;
+var tagIt = function () {
+    var strings = [arguments[0], arguments[2]];
+    var a = arguments[1], b = arguments[3];
+    return [strings, a, b];
+}
+tagIt(x, 'and', y, ' red baloons');
+//=> [[' and ', ' red baloons'], 90, 9]]
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var x = 90, y = 9;
+var tagIt = function(strings, a, b) {
+    return [strings, a, b];
+}
+tagIt`${x} and ${y} red baloons`;
+//=> [[' and ', ' red baloons'], 90, 9]]
+                        </code></pre>
+                    </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>Finally!</li>
+                            <li>They can include newlines</li>
+                            <li>Tagged template string is a template string parsed by function</li>
+                        </ul>
+                    </aside>
+                </section>
+                <section>
+                    <h2>For...of loops</h2>
+                    <div class="fragemnt visible column es5">
+                        <pre><code data-trim>
+var items = [1, 2, 3], powers = [];
+for(var i = 0, len = items.length; i &lt; len; i++) {
+    powers.push(items[i] * items[i]);
+}
+return powers; // => [1, 4, 9]
+                        </code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>
+var items = [1, 2, 3], powers = [];
+for(var i of items) {
+    powers.push(i * i);
+}
+return powers; // => [1, 4, 9];
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var hero = 'Batman', intro = '';
+for(var h = 0, len = hero.length; h &lt; len; h++) {
+    intro += 3 - hero[h];
+}
+
+return intro + ' ' + hero + '!';
+// => 'NaNNaNNaNNaNNaNNaN Batman!'
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var hero = 'Batman', intro = '';
+for(var h of hero) {
+    intro += 3 - h;
+}
+return `${intro} ${hero}!`;
+// => 'NaNNaNNaNNaNNaNNaN Batman!'
+                        </code></pre>
+                    </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>And they works with strings too</li>
+                        </ul>
+                    </aside>
+                </section>
+                <section>
+                    <h1>Functions</h1>
+                </section>
+                <section>
+                    <h2>Arrow Function</h2>
+                    <div class="fragment visible column es5">
+                        <pre><code data-trim>
+var square = function(x) {
+    return x * x
+};
+                        </code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>var square = x => x * x;</code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+elem.addEventListener('click', function(e) {
+    e.preventDefault();
+});
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>elem.addEventListener('click', e => e.preventDefault());</code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+[1, 2, 3, 4].reduce(function(p, q) {
+    return p * q;
+});
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>[1, 2, 3, 4].reduce((p, q) => p * q);</code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>var theAnswer = function () { return 42; }</code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>var theAnswer = () => 42;</code></pre>
+                    </div>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>function structuring</li>
+                            <li>1 (no brackets), 2, 0 (with brackets) parameters</li>
+                        </ul>
+                    </aside>
+                </section>
+                <section>
+                    <h2>Arrow Function</h2>
+                    <div class="fragment visible column es5">
+                        <pre><code data-trim>
+this.mightyPirate = 'Guybrush Threepwood';
+var self = this;
+elem.addEventListener('click', function () {
+    return self.mightyPirate; // => Guybrush Threepwood
+});
+                        </code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>
+this.mightyPirate = 'Guybrush Threepwood';
+elem.addEventListener('click', () => {
+    return this.mightyPirate; // => Guybrush Threepwood
+});
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+this.modelsFavorite = 'Chocolate Shake';
+var log = function() { console.log(this.modelsFavorite); }
+var context = { modelsFavorite: 'Yogurt' }
+(log.bind(context))(); // => Yogurt
+log.call(context); // => Yogurt
+log.apply(context) // => Yogurt
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+this.modelsFavorite = 'Chocolate Shake';
+var log = () => { console.log(this.modelsFavorite); }
+var context = { modelsFavorite: 'Yogurt' }
+(log.bind(context))(); // => Chocolate Shake
+log.call(context); // => Chocolate Shake
+log.apply(context) // => Chocolate Shake
+                        </code></pre>
+                        <pre class="fragment"><code data-trim>
+($ => {
+    $('#item').on('click', () => {
+        $(this).hide(); // won't work!
+    })
+})(jQuery);
+                        </code></pre>
+                    </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>preserves context</li>
+                            <li>multiline arrow needs {} brackets and return keyword</li>
+                            <li>it behaves exactly like self = this, so can't call, apply, bind - which is bad</li>
+                            <li>jQuery as an example of pitfalls</li>
+                        </ul>
+                    </aside>
+                </section>
+                <section>
+                    <h2>Default parameters</h2>
+                    <div class="fragment visible column es5">
+                        <pre><code data-trim>
+var translateGenders = function(m, f) {
+    var male = m === undefined ? 'Male' : m;
+    var female = f === undefined ? 'Female' : f;
+    return [male, female];
+}
+translateGenders(); // => ['Male', 'Female']
+translateGenders('Facet'); // => ['Facet', 'Female']
+                        </code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>
+var translateGenders = (m = 'Male', f = 'Female') => {
+    return [m, f];
+}
+translateGenders(); // => ['Male', 'Female']
+translateGenders('Facet'); // => ['Facet', 'Female']
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var callPlumbers = function(p1, p2 = p1) {
+    p1 = p1 === undefined ? 'Mario' : p1;
+    p2 = p2 === undefined ? p1 : p2;
+    return [p1, p2];
+}
+callPlumbers(); // => ['Mario', 'Mario']
+callPlumbers('Luigi'); // => ['Luigi', 'Luigi']
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var callPlumbers = (p1 = 'Mario', p2 = p1) => {
+    return [p1, p2];
+}
+callPlumbers(); // => ['Mario', 'Mario']
+callPlumbers('Luigi'); // => ['Luigi', 'Luigi']
+                         </code></pre>
+                    </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>Finally</li>
+                            <li>You can use previous parameters as defaults</li>
+                            <li>You can also use functions as defaults (no example)</li>
+                        </ul>
+                    </aside>
+                </section>
+                <section>
+                    <h2>Rest Parameters</h2>
+                    <div class="fragment visible column es5">
+                        <pre><code data-trim>
+var basket = {};
+var attach = function(category) {
+    basket[category] = [].slice.call(arguments, 1);
+}
+                       </code><code class="fragment" data-trim>
+attach('powerpuffs', 'Blossom', 'Bubbles', 'Buttercup');
+// => { powerpuffs: ['Blossom', 'Bubbles', 'Buttercup'] };
+                        </code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>
+var items = {};
+var attach = (category, ...items) => {
+    basket[category] = items;
+}
+attach('powerpuffs', 'Blossom', 'Bubbles', 'Buttercup');
+// => { powerpuffs: ['Blossom', 'Bubbles', 'Buttercup'] };
+                        </code></pre>
+                    </div>
+                </section>
+                <section>
+                    <h2>Spread Operator</h2>
+                    <div class="fragment visible column es5">
+                        <pre><code data-trim>Math.max.apply(Math.max, [50, 69]); // => Math.max(50, 69)</code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>Math.max(...[50, 69]); // => Math.max(50, 69)</code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>'stomal'.split('').sort() // => ['a','l','m','o','s','t']</code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>[...'stomal'].sort() // => ['a','l','m','o','s','t']</code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var sum = function() {
+    return [].slice.call(arguments, 0)
+           .reduce(function (a, b) {
+               return a + b;
+           });
+};
+sum.apply(sum, [1, 2, 3, 4]); // => 10
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var sum = (...augends) => augends.reduce((a, b) => a + b);
+sum(...[1, 2, 3 ,4]); // => 10
+                        </code></pre>
+                    </div>
+                 </section>
+                <aside class="notes">
+                    <ul>
+                        <li>Converts array to splash parameters</li>
+                        <li>And it's pretty powerful, it can do strings too</li>
+                        <li>And of course you can join it with rest parameters</li>
+                    </ul>
+                </aside>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
