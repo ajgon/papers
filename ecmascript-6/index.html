@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+		<title>ECMAScript 6 - Igor Rzegocki</title>
 
 		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 		<meta name="author" content="Hakim El Hattab">
@@ -182,6 +182,161 @@ return `${intro} ${hero}!`;
                     </aside>
                 </section>
                 <section>
+                    <h2>Basic Destructuring</h2>
+                    <div class="fragment visible column es5">
+                        <pre><code data-trim>
+var d = 4, m = 7, y = 1610;
+                        </code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>
+var [d, m, y] = [4, 7, 1610];
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var x = 1, y = 2;
+var temp = [y, x]; x = temp[0]; y = temp[1];
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var x = 1, y = 2;
+[x, y] = [y, x];
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+function getBattle() { return [12, 9, 1683]; }
+var d = getBattle()[0], var m = getBattle()[1];
+var y = getBattle()[1];
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+function getBattle() { return [12, 9, 1683]; }
+var [d, m] = getBattle();
+var [,,y] = getBattle();
+                        </code></pre>
+                    </div>
+                   <div class="fragment column">
+                        <pre><code data-trim>
+var date = [16, [8, [1920]]];
+var d = date[0], m = date[1][0], y = date[1][1][0];
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var date = [16, [8, [1920]]];
+var [d, [m, [y]]] = date;
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var fuel = 'CPN';
+var f = fuel[0], u = fuel[1], e = fuel[2], l;
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var fuel = 'CPN';
+var [f, u, e, l] = 'CPN'; // l => undefined
+                        </code></pre>
+                    </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>Very broad topic</li>
+                            <li>date1 = Battle of Klushino (7k vs 40k, Zolkiewski)</li>
+                            <li>date2 = Battle of Vienna - can use on functions (Jan III Sobieski)</li>
+                            <li>date3 = Battle of Warsaw - can nest (Pilsudski)</li>
+                            <li>You can safely destructure to more variables, they will be undefined</li>
+                            <li>You can use them in many places like for-in, for-of loops and function parameters</li>
+                        </ul>
+                    </aside>
+                </section>
+                <section>
+                    <h1>Bindings</h1>
+                </section>
+                <section>
+                    <h2>Block-level scopes</h2>
+                    <div class="fragment visible column es5">
+                        <pre><code data-trim>
+function foo() { return 'bar'; }
+{ function foo() { return 'baz'; } }
+foo(); // => 'baz'
+                        </code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>
+function foo() { return 'bar'; }
+{ function foo() { return 'baz'; } }
+foo(); // => 'bar'
+                        </code></pre>
+                    </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>It was recommended that ES5 implementations forbid block-level declarations in strict mode.</li>
+                            <li>Examples of block scopes: for, if, switch etc.</li>
+                        </ul>
+                    </aside>
+                </section>
+                <section>
+                    <h2>Let</h2>
+                    <div class="fragment visible column es5">
+                        <pre><code data-trim>
+var hero1 = 'Cloud', hero2 = 'Mario';
+var love1 = 'Aerith', love2 = 'Luigi';
+{ var love1 = 'Tifa'; var love2 = 'Princess Peach' }
+return [love1, love2];
+// => ['Tifa', 'Princess Peach']
+                        </code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>
+var [hero1, hero2] = ['Cloud', 'Mario'];
+var [love1, love2] = ['Aerith', 'Luigi'];
+{ var love1 = 'Tifa'; let love2 = 'Princess Peach' }
+return [love1, love2];
+// => ['Tifa', 'Luigi']
+                        </code></pre>
+                    </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>"let" is always limited to block scope</li>
+                        </ul>
+                    </aside>
+                </section>
+                <section>
+                    <h2>Const</h2>
+                    <div class="fragment visible column es5">
+                        <pre><code data-trim>
+var genders = ['male', 'female'];
+genders = ['male', 'female', 'transformer'];
+return genders; // => ['male', 'female', 'transformer']
+                        </code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>
+const genders = ['male', 'female'];
+genders = ['male', 'female', 'transformer'] //=> exception
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var PI = 3.14159265359;
+{ var PI = 3.5; }
+return PI // => 3.5
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+const PI = 3.14159265359;
+{ const PI = 3.5; }
+return PI // => 3.14159265359;
+                        </code></pre>
+                    </div>
+                 </section>
+                <section>
                     <h1>Functions</h1>
                 </section>
                 <section>
@@ -289,22 +444,22 @@ log.apply(context) // => Chocolate Shake
                     <h2>Default parameters</h2>
                     <div class="fragment visible column es5">
                         <pre><code data-trim>
-var translateGenders = function(m, f) {
-    var male = m === undefined ? 'Male' : m;
-    var female = f === undefined ? 'Female' : f;
-    return [male, female];
+var animeName = function(b, g) {
+    var forBoys = b === undefined ? 'Dragonball' : b;
+    var forGirls = g === undefined ? 'Sailor Moon' : g;
+    return [forBoys, forGirls];
 }
-translateGenders(); // => ['Male', 'Female']
-translateGenders('Facet'); // => ['Facet', 'Female']
+animeName(); // => ['Dragonball', 'Sailor Moon']
+animeName('Berserk'); // => ['Berserk', 'Sailor Moon']
                         </code></pre>
                     </div>
                     <div class="fragment column es6">
                         <pre><code data-trim>
-var translateGenders = (m = 'Male', f = 'Female') => {
-    return [m, f];
+var animeName = (b = 'Dragonball', g = 'Sailor Moon') => {
+    return [b, g];
 }
-translateGenders(); // => ['Male', 'Female']
-translateGenders('Facet'); // => ['Facet', 'Female']
+animeName(); // => ['Dragonball', 'Sailor Moon']
+animeName('Berserk'); // => ['Berserk', 'Sailor Moon']
                         </code></pre>
                     </div>
                     <div class="fragment column">
