@@ -1,53 +1,53 @@
 <!doctype html>
 <html lang="en">
 
-	<head>
-		<meta charset="utf-8">
+    <head>
+        <meta charset="utf-8">
 
-		<title>ECMAScript 6 - Igor Rzegocki</title>
+        <title>ECMAScript 6 - Igor Rzegocki</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+        <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+        <meta name="author" content="Hakim El Hattab">
 
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/moon.css" id="theme">
         <link rel="stylesheet" href="css/custom.css">
 
-		<!-- Code syntax highlighting -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
 
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
 
-	<body>
+    <body>
 
-		<div class="reveal">
+        <div class="reveal">
 
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
                 <section>
                     <h1>ECMAScript 6</h1>
                     <h3>The future of JavaScript</h3>
                     <p>
                         <small><a href="http://rzegocki.pl">Igor Rzegocki</a> / <a href="http://twitter.com/ajgon">@ajgon</a></small>
                     </p>
-				</section>
+                </section>
                 <section>
                     <h2>Caution</h2>
                     <p>
@@ -107,7 +107,7 @@ makes Jack a dull boy`;
                     <div class="fragment column">
                         <pre><code data-trim>
 var x = 90, y = 9;
-var tagIt = function () {
+var tagIt = function() {
     var strings = [arguments[0], arguments[2]];
     var a = arguments[1], b = arguments[3];
     return [strings, a, b];
@@ -372,7 +372,7 @@ elem.addEventListener('click', function(e) {
                         <pre><code data-trim>[1, 2, 3, 4].reduce((p, q) => p * q);</code></pre>
                     </div>
                     <div class="fragment column">
-                        <pre><code data-trim>var theAnswer = function () { return 42; }</code></pre>
+                        <pre><code data-trim>var theAnswer = function() { return 42; }</code></pre>
                     </div>
                     <div class="fragment column">
                         <pre><code data-trim>var theAnswer = () => 42;</code></pre>
@@ -391,7 +391,7 @@ elem.addEventListener('click', function(e) {
                         <pre><code data-trim>
 this.mightyPirate = 'Guybrush Threepwood';
 var self = this;
-elem.addEventListener('click', function () {
+elem.addEventListener('click', function() {
     return self.mightyPirate; // => Guybrush Threepwood
 });
                         </code></pre>
@@ -532,7 +532,7 @@ attach('powerpuffs', 'Blossom', 'Bubbles', 'Buttercup');
                         <pre><code data-trim>
 var sum = function() {
     return [].slice.call(arguments, 0)
-           .reduce(function (a, b) {
+           .reduce(function(a, b) {
                return a + b;
            });
 };
@@ -545,45 +545,253 @@ var sum = (...augends) => augends.reduce((a, b) => a + b);
 sum(...[1, 2, 3 ,4]); // => 10
                         </code></pre>
                     </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>Converts array to splash parameters</li>
+                            <li>And it's pretty powerful, it can do strings too</li>
+                            <li>And of course you can join it with rest parameters</li>
+                        </ul>
+                   </aside>
+                </section>
+                <section>
+                    <h1>Objects, Classes and&nbsp;Modules</h1>
+                </section>
+                <section>
+                    <h2>Object Definitions</h2>
+                    <div class="fragment visible column es5">
+                        <pre><code data-trim>
+var Country = {
+    name: 'Russia',
+    isMother: true,
+    getPresident: function() { return undefined; },
+    invade: function(c) { return c + ' invaded!'; }
+}
+                        </code></pre>
+                    </div>
+                    <div class="fragment column es6">
+                        <pre><code data-trim>
+var Country = {
+    name: 'Russia',
+    isMother: true,
+    getPresident() { return undefined; },
+    invade(c) { return `${c} invaded!`; }
+}
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var name = 'U.S.A', isMother = false;
+var getPresident = function() { return '#000'; }
+var invade = function(c) { throw('Stack Overflow!');  }
+var Country = {
+    name: name, isMother: isMother,
+    getPresident: getPresident, invade: invade
+}
+                        </code></pre>
+                    </div>
+                    <div class="fragment column">
+                        <pre><code data-trim>
+var [name, isMother] = ['U.S.A.', false];
+var getPresident = () => '#000';
+var invade c => throw('Stack Overflow!');
+var Country = { name, isMother, getPresident, invade }
+                        </code></pre>
+                    </div>
+                    <aside class="notes">
+                        <ul>
+                            <li>Second example: Literal Property Shorthand</li>
+                        </ul>
+                    </aside>
                  </section>
-                <aside class="notes">
-                    <ul>
-                        <li>Converts array to splash parameters</li>
-                        <li>And it's pretty powerful, it can do strings too</li>
-                        <li>And of course you can join it with rest parameters</li>
-                    </ul>
-                </aside>
-			</div>
+                 <section>
+                     <h2>Object Destructuring</h2>
+                     <div class="fragment visible column es5">
+                         <pre><code data-trim>
+function celebrate() {
+    return { d: 25, m: 5, y: 2014 };
+}
+var day = celebrate().d;
+var month = celebrate().m;
+var year = celebrate().y;
+                         </code></pre>
+                     </div>
+                     <div class="fragment column es6">
+                         <pre><code data-trim>
+celebrate () => { d: 25, m: 5, y: 2014 };
+var { d: day, m: month, y: year } = celebrate();
+                         </code></pre>
+                     </div>
+                     <aside class="notes">
+                         <ul>
+                             <li>date = Jaruzelski kaput</li>
+                         </ul>
+                     </aside>
+                 </section>
+                 <section>
+                     <h2>Class</h2>
+                     <div class="fragment visible column es5 to-bottom">
+                         <pre><code data-trim>
+var extend = function(child, parent) {
+  for(var key in parent) {
+    if(parent.hasOwnProperty(key))
+      child[key] = parent[key];
+  }
+  function ctor() { this.constructor = child; }
+  ctor.prototype = parent.prototype;
+  child.prototype = new ctor();
+  child.__super__ = parent.prototype;
+  return child;
+};
+var eMethod = 'replaceEngine', Kia = (function(parent) {
+  extend(Kia, parent);
+  function Kia(engine) {
+    this.engine = engine;
+    Kia.__super__.constructor.call(this, this.engine);
+  }
+  Kia.prototype[eMethod] = function(newEngine) {
+    return Kia.__super__.replaceEngine
+    .apply(this, arguments).replaceEngine(newEngine);
+  };
+  Object.defineProperty(Kia, 'horsePower', {
+    get: function() { return this.engine.horsePower; },
+    set: function(hp) { this.engine.horsePower = hp; }
+  });
+  Kia.needsService = function() { return true; }
+  return Kia;
+})(Car);
+                         </code></pre>
+                     </div>
+                     <div class="fragment column es6">
+                         <pre><code data-trim>
+var eMethod = 'replaceEngine';
+class Kia extends Car {
+    constructor(engine) {
+        this.engine = engine;
+        super(engine);
+    }
+    [eMethod](newEngine) {
+        super.replaceEngine(newEngine);
+    }
+    get horsePower() {
+        return this.engine.horsePower;
+    }
+    set horsePower(hp) {
+        this.engine.horsePower = hp;
+    }
+    static needsService() { return true; }
+}
+                         </code></pre>
+                     </div>
+                     <aside class="notes">
+                         <ul>
+                             <li>No static variables</li>
+                             <li>You can use computed names</li>
+                             <li>You can subclass defined classes like Array, RegExp, Function, Number String or Boolean</li>
+                         </ul>
+                     </aside>
+                  </section>
+                  <section>
+                      <h2>Modules</h2>
+                      <div class="fragment column">
+                          <p>lib/math.js</p>
+                          <pre><code data-trim>
+export var sum = (x, y) => x + y;
+export const PI = 3.141593;
+                          </code></pre>
+                      </div>
+                      <div class="column">
+                         <div class="fragment">
+                             <p>app.js</p>
+                             <pre><code data-trim>
+import * as MyMath from 'lib/math';
+return `2π = ${MyMath.sum(MyMath.PI, MyMath.PI)}`
+// => 2π = 6.283186
+                             </code></pre>
+                         </div>
+                         <div class="fragment">
+                             <p>otherApp.js</p>
+                             <pre><code data-trim>
+import {sum, PI} from 'lib/math';
+return `2π = ${sum(PI, PI)}`
+// => 2π = 6.283186
+                             </code></pre>
+                         </div>
+                     </div>
+                     <aside class="notes">
+                         <ul>
+                             <li>I'm not going to use ES5 example, since it would basically need inclusion of whole require.js or common.js</li>
+                         </ul>
+                     </aside>
+                  </section>
+                  <section>
+                      <h2>Modules</h2>
+                      <div class="column">
+                          <div class="fragment visible">
+                              <p>lib/math.js</p>
+                              <pre><code data-trim>
+export var sum = (x, y) => x + y;
+export const PI = 3.141593;
+                              </code></pre>
+                          </div>
+                          <div class="fragment">
+                              <p>lib/mathplusplus.js</p>
+                              <pre><code data-trim>
+export * from 'lib/math';
+export const e = 2.71828182846;
+export ln x => Math.log(x);
+export default x => Math.exp(x);
+                              </code></pre>
+                          </div>
+                      </div>
+                      <div class="column">
+                         <div class="fragment">
+                             <p>app.js</p>
+                             <pre><code data-trim>
+import exp, {PI, e, ln} from 'lib/mathplusplus';
+return `π = ${exp(ln(PI))}
+e = ${e}`
+// => π = 3.141593
+//    e = 2.71828182846
+                             </code></pre>
+                         </div>
+                     </div>
+                     <aside class="notes">
+                         <ul>
+                             <li>I'm not going to use ES5 example, since it would basically need inclusion of whole require.js or common.js</li>
+                         </ul>
+                     </aside>
+                  </section>
+              </div>
 
-		</div>
+        </div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
 
-		<script>
+        <script>
 
-			// Full list of configuration options available at:
-			// https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: true,
+                history: true,
+                center: true,
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
 
-				// Optional reveal.js plugins
-				dependencies: [
-					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
-				]
-			});
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                    { src: 'plugin/notes/notes.js', async: true }
+                ]
+            });
+            document.addEventListener('DOMContentLoaded', function() { [].slice.call(document.querySelectorAll('.to-bottom code')).forEach(function(node) { node.scrollTop = node.scrollHeight }); });
+        </script>
 
-		</script>
-
-	</body>
+    </body>
 </html>
