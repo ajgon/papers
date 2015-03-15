@@ -2,6 +2,7 @@
     display: inline-block;
     width: 48%;
     vertical-align: top !important;
+    position: relative;
 }
 
 .column:before {
@@ -20,4 +21,14 @@
 
 .column code {
     font-size: 70%;
+}
+
+pre.cover {
+    position: absolute;
+    margin: -25% 0 0 5%;
+    box-shadow: none;
+}
+
+pre.cover code {
+    padding: 0;
 }

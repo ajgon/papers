@@ -49,6 +49,17 @@
                     </p>
                 </section>
                 <section>
+                    <h2>Summary</h2>
+                        <ul>
+                            <li class="fragment">Basic Syntax</li>
+                            <li class="fragment">Bindings</li>
+                            <li class="fragment">Functions</li>
+                            <li class="fragment">Objects, Classes and&nbsp;Modules</li>
+                            <li class="fragment">Built-ins</li>
+                            <li class="fragment">Support</li>
+                        </ul>
+                </section>
+                <section>
                     <h2>Caution</h2>
                     <p>
                         This <strong>may</strong> change between today and the final ECMAScript&nbsp;6&nbsp;or&nbsp;7&nbsp;or&nbsp;2015 or&nbsp;whatever specification
@@ -554,7 +565,7 @@ sum(...[1, 2, 3 ,4]); // => 10
                    </aside>
                 </section>
                 <section>
-                    <h1>Objects, Classes and&nbsp;Modules</h1>
+                    <h1>Objects, Classes, Modules and&nbsp;Generators</h1>
                 </section>
                 <section>
                     <h2>Object Definitions</h2>
@@ -761,7 +772,189 @@ e = ${e}`
                          </ul>
                      </aside>
                   </section>
-              </div>
+                  <section>
+                      <h1>Built-ins</h1>
+                  </section>
+                  <section>
+                      <h2>Generators</h2>
+                      <div class="fragment column">
+                          <p>Generator</p>
+                          <pre><code data-trim>
+function* numbers() {
+    yield * '48';
+    yield * [15, 16];
+    yield 23;
+    yield 42;
+}
+                          </code></pre>
+                      </div>
+                      <div class="fragment column">
+                          <p>Invocation</p>
+                          <pre><code data-trim>
+var gen = numbers();
+gen.next(); // => {value: '4', done: false}
+gen.next(); // => {value: '8', done: false}
+gen.next(); // => {value: 15, done: false}
+gen.next(); // => {value: 16, done: false}
+gen.next(); // => {value: 23, done: false}
+gen.next(); // => {value: 42, done: false}
+gen.next(); // => {value: undefined, done: true}
+                          </code></pre>
+                      </div>
+
+                      <aside class="notes">
+                          <ul>
+                              <li>Needs * (asteriks) appended to function keyword</li>
+                              <li>Each yield suspends function, each next resumes</li>
+                              <li>Asteriks near yield is a splash operator</li>
+                          </ul>
+                      </aside>
+                  </section>
+                  <section>
+                      <h2>Generators</h2>
+                      <div class="fragment column">
+                          <p>Generator</p>
+                          <pre><code data-trim>
+function* RandomNumberGenerator() {
+    while(true) {
+        yield 9;
+    }
+}
+                          </code></pre>
+                      </div>
+                      <div class="fragment column">
+                          <p>Invocation</p>
+                          <pre><code data-trim>
+var random = RandomNumberGenerator();
+gen.next().value; // => 9
+gen.next().value; // => 9
+gen.next().value; // => 9
+gen.next().value; // => 9
+gen.next().value; // => 9
+gen.next().value; // => 9
+                          </code></pre>
+                      </div>
+                      <img data-src="img/random.gif" class="fragment">
+                  </section>
+                  <section>
+                      <h2>Proxy</h2>
+                      <div class="fragment column" data-fragment-index="1">
+                          <p>Preparation</p>
+                          <pre><code data-trim>
+var developer = { name: 'Igor', salary: 1750 }
+var interceptor = {
+    set(receiver, property, value) {
+        receiver[property] = 2 * value;
+    }
+}
+developer = Proxy(developer, interceptor);
+                          </code></pre>
+                          <pre class="fragment cover" data-fragment-index="3"><code>&nbsp;</code></pre>
+                      </div>
+                      <div class="fragment column" data-fragment-index="2">
+                          <p>Invocation</p>
+                          <pre><code data-trim>
+developer.salary = 2000;
+return developer.salary; // => 4000
+                          </code></pre>
+                          <pre class="fragment" data-fragment-index="4"><code data-trim>
+developer.salary = 2000;
+return developer.salary; // => 1500
+                          </code></pre>
+                      </div>
+                   </section>
+                   <section>
+                       <h2>Promise</h2>
+                       <div class="fragment column">
+                           <p>Definition</p>
+                           <pre><code data-trim>
+function timeout(duration = 0) {
+    return new Promise((resolve, reject) => {
+        if (duration &lt; 0) {
+            reject('Invalid duration');
+        }
+        setTimeout(resolve, duration);
+    });
+}
+                           </code></pre>
+                       </div>
+                       <div class="fragment column">
+                           <p>Usage</p>
+                           <pre><code data-trim>
+timeout(1000).then(() => {
+    console.log('success for 1000');
+    return timeout(-10);
+}).then(() => {
+    console.log('success for -10');
+}, () => {
+    console.log('failure for -10');
+    throw new Error('failure');
+}).catch(err => {
+    return Promise.all([timeout(100), timeout(200)]);
+});
+/* success for 1000 */
+/* failure for -10 */
+                           </code></pre>
+                       </div>
+                       <aside class="notes">
+                           <ul>
+                               <li>Promise.all returns a promise that resolves if all promises inside resolve</li>
+                               <li>Promise.race returns a promise that resolves or rejects as soon as first promise from array resolves or rejects</li>
+                           </ul>
+                       </aside>
+                   </section>
+                   <section>
+                       <h2>Symbol</h2>
+                       <div class="fragment column">
+                           <p>Definition</p>
+                           <pre><code data-trim>
+var name = Symbol();
+var age = Symbol('age');
+                          </code></pre>
+                       </div>
+                       <div class="fragment column">
+                           <p>Usage</p>
+                           <pre><code data-trim>
+var Person = {
+    [name]: 'Krzysztof Ibisz',
+    [Symbol.for('age')]: 20
+};
+                            </code></pre>
+                            <aside class="notes">
+                                <ul>
+                                    <li>If Symbol is defined with a parameter, this parameter will become a key in global symbol index, and can be retrieved via Symbol.for</li>
+                                </ul>
+                            </aside>
+                       </div>
+                   </section>
+                   <section>
+                       <h1>Support</h1>
+                       <h5>(as of 2015-03-19)</h5>
+                   </section>
+                   <section>
+                       <h2>Browsers</h2>
+                       <ul>
+                           <li class="fragment" data-fragment-index="1">Firefox 36 - 65%</li>
+                           <li class="fragment" data-fragment-index="2">Chrome 41 - 44%</li>
+                           <li class="fragment" data-fragment-index="2">Opera 28 - 44%</li>
+                           <li class="fragment" data-fragment-index="3">Safari 8 - 20%</li>
+                           <li class="fragment" data-fragment-index="3">iOS8 Safari - 20%</li>
+                           <li class="fragment" data-fragment-index="4">
+                               <p style="margin-top: 0; margin-bottom: 0;">Internet Explorer 11 - 15%</p>
+                               <img data-src="img/ie.jpg" class="fragment" data-fragment-index="4">
+                           </li>
+                       </ul>
+                   </section>
+                   <section>
+                       <h2>Polyfills</h2>
+                       <ul>
+                           <li class="fragment"><a href="https://babeljs.io" target="_blank">Babel</a> (formely known as 6to5) - 76%</li>
+                           <li class="fragment"><a href="https://github.com/google/traceur-compiler" target="_blank">Traceur Compiler</a> - 64%</li>
+                           <li class="fragment"><a href="https://github.com/google/closure-compiler" target="_blank">Closure Compiler</a> - 33%</li>
+                           <li class="fragment"><a href="https://github.com/paulmillr/es6-shim/" target="_blank">es6-shim</a> - 21%</li>
+                       </ul>
+                   </section>
+               </div>
 
         </div>
 
@@ -775,7 +968,7 @@ e = ${e}`
             Reveal.initialize({
                 controls: false,
                 progress: true,
-                history: true,
+                history: false,
                 center: true,
 
                 transition: 'slide', // none/fade/slide/convex/concave/zoom
