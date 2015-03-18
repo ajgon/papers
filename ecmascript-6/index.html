@@ -60,10 +60,15 @@
                         </ul>
                 </section>
                 <section>
-                    <h2>Caution</h2>
-                    <p>
-                        This <strong>may</strong> change between today and the final ECMAScript&nbsp;6&nbsp;or&nbsp;7&nbsp;or&nbsp;2015 or&nbsp;whatever specification
+                    <h2>Current state</h2>
+                    <p class="fragment">
+                        Development of the ECMA-262 6th Edition, The 2015 ECMAScript Language Specification is complete.
+                        All that remains to find and fix are remaining editorial or technical bugs in the document.
                     </p>
+                    <p class="fragment">
+                        Current version: ECMAScript6-RC3
+                    </p>
+                    <p class="fragment">(as of 2015-03-09)</p>
                 </section>
                 <section>
                     <h1>Basic Syntax</h1>
@@ -159,7 +164,7 @@ return powers; // => [1, 4, 9]
                     <div class="fragment column es6">
                         <pre><code data-trim>
 var items = [1, 2, 3], powers = [];
-for(var i of items) {
+for(let i of items) {
     powers.push(i * i);
 }
 return powers; // => [1, 4, 9];
@@ -179,7 +184,7 @@ return intro + ' ' + hero + '!';
                     <div class="fragment column">
                         <pre><code data-trim>
 var hero = 'Batman', intro = '';
-for(var h of hero) {
+for(let h of hero) {
     intro += 3 - h;
 }
 return `${intro} ${hero}!`;
@@ -961,6 +966,28 @@ var Person = {
                            <li class="fragment"><a href="https://github.com/google/closure-compiler" target="_blank">Closure Compiler</a> - 33%</li>
                            <li class="fragment"><a href="https://github.com/paulmillr/es6-shim/" target="_blank">es6-shim</a> - 21%</li>
                        </ul>
+                   </section>
+                   <section>
+                       <h2>Learn more</h2>
+                       <ul>
+                           <li class="fragment"><a href="http://rzegocki.pl/places/ecmascript-6">http://rzegocki.pl/places/ecmascript-6</a></li>
+                           <li class="fragment"><a href="https://esdiscuss.org/">https://esdiscuss.org/</a></li>
+                           <li class="fragment"><a href="https://github.com/lukehoban/es6features">https://github.com/lukehoban/es6features</a></li>
+                           <li class="fragment"><a href="https://kangax.github.io/compat-table/es6/">https://kangax.github.io/compat-table/es6/</a></li>
+                           <li class="fragment"><a href="https://babeljs.io/repl/">https://babeljs.io/repl/</a></li>
+                       </ul>
+                       <aside class="notes">
+                           <ul>
+                               <li>My presentation</li>
+                               <li>Standard discuss, drafts and development</li>
+                               <li>ES6 examples</li>
+                               <li>Browsers/polyfills support comparision table</li>
+                               <li>ES6 playground, online transpiler to ES5</li>
+                           </ul>
+                       </aside>
+                   </section>
+                   <section>
+                       <h1>Thanks!</h1>
                    </section>
                </div>
 
