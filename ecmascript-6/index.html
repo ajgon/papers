@@ -119,8 +119,8 @@ makes Jack a dull boy`;
                         <pre><code data-trim>
 var x = 90, y = 9;
 var tagIt = function() {
-    var strings = [arguments[0], arguments[2]];
-    var a = arguments[1], b = arguments[3];
+    var strings = [arguments[1], arguments[3]];
+    var a = arguments[0], b = arguments[2];
     return [strings, a, b];
 }
 tagIt(x, 'and', y, ' red baloons');
@@ -219,8 +219,8 @@ var x = 1, y = 2;
                     <div class="fragment column">
                         <pre><code data-trim>
 function getBattle() { return [12, 9, 1683]; }
-var d = getBattle()[0], var m = getBattle()[1];
-var y = getBattle()[1];
+var d = getBattle()[0], m = getBattle()[1];
+var y = getBattle()[2];
                         </code></pre>
                     </div>
                     <div class="fragment column">
@@ -297,7 +297,10 @@ foo(); // => 'bar'
                         <pre><code data-trim>
 var hero1 = 'Cloud', hero2 = 'Mario';
 var love1 = 'Aerith', love2 = 'Luigi';
-{ var love1 = 'Tifa'; var love2 = 'Princess Peach' }
+{
+    var love1 = 'Tifa';
+    var love2 = 'Princess Peach'
+}
 return [love1, love2];
 // => ['Tifa', 'Princess Peach']
                         </code></pre>
@@ -306,7 +309,10 @@ return [love1, love2];
                         <pre><code data-trim>
 var [hero1, hero2] = ['Cloud', 'Mario'];
 var [love1, love2] = ['Aerith', 'Luigi'];
-{ var love1 = 'Tifa'; let love2 = 'Princess Peach' }
+{
+    var love1 = 'Tifa';
+    let love2 = 'Princess Peach'
+}
 return [love1, love2];
 // => ['Tifa', 'Luigi']
                         </code></pre>
@@ -420,7 +426,7 @@ elem.addEventListener('click', () => {
 this.modelsFavorite = 'Chocolate Shake';
 var log = function() { console.log(this.modelsFavorite); }
 var context = { modelsFavorite: 'Yogurt' }
-(log.bind(context))(); // => Yogurt
+log.bind(context)(); // => Yogurt
 log.call(context); // => Yogurt
 log.apply(context) // => Yogurt
                         </code></pre>
@@ -430,7 +436,7 @@ log.apply(context) // => Yogurt
 this.modelsFavorite = 'Chocolate Shake';
 var log = () => { console.log(this.modelsFavorite); }
 var context = { modelsFavorite: 'Yogurt' }
-(log.bind(context))(); // => Chocolate Shake
+log.bind(context)(); // => Chocolate Shake
 log.call(context); // => Chocolate Shake
 log.apply(context) // => Chocolate Shake
                         </code></pre>
@@ -456,9 +462,9 @@ log.apply(context) // => Chocolate Shake
                     <div class="fragment visible column es5">
                         <pre><code data-trim>
 var animeName = function(b, g) {
-    var forBoys = b === undefined ? 'Dragonball' : b;
-    var forGirls = g === undefined ? 'Sailor Moon' : g;
-    return [forBoys, forGirls];
+    var b = b || 'Dragonball';
+    var g = g || 'Sailor Moon';
+    return [b, g];
 }
 animeName(); // => ['Dragonball', 'Sailor Moon']
 animeName('Berserk'); // => ['Berserk', 'Sailor Moon']
@@ -475,9 +481,9 @@ animeName('Berserk'); // => ['Berserk', 'Sailor Moon']
                     </div>
                     <div class="fragment column">
                         <pre><code data-trim>
-var callPlumbers = function(p1, p2 = p1) {
-    p1 = p1 === undefined ? 'Mario' : p1;
-    p2 = p2 === undefined ? p1 : p2;
+var callPlumbers = function(p1, p2) {
+    p1 = p1 || 'Mario';
+    p2 = p2 || p1;
     return [p1, p2];
 }
 callPlumbers(); // => ['Mario', 'Mario']
@@ -516,7 +522,7 @@ attach('powerpuffs', 'Blossom', 'Bubbles', 'Buttercup');
                     </div>
                     <div class="fragment column es6">
                         <pre><code data-trim>
-var items = {};
+var basket = {};
 var attach = (category, ...items) => {
     basket[category] = items;
 }
@@ -528,7 +534,7 @@ attach('powerpuffs', 'Blossom', 'Bubbles', 'Buttercup');
                 <section>
                     <h2>Spread Operator</h2>
                     <div class="fragment visible column es5">
-                        <pre><code data-trim>Math.max.apply(Math.max, [50, 69]); // => Math.max(50, 69)</code></pre>
+                        <pre><code data-trim>Math.max.apply(Math, [50, 69]); // => Math.max(50, 69)</code></pre>
                     </div>
                     <div class="fragment column es6">
                         <pre><code data-trim>Math.max(...[50, 69]); // => Math.max(50, 69)</code></pre>
@@ -547,7 +553,7 @@ var sum = function() {
                return a + b;
            });
 };
-sum.apply(sum, [1, 2, 3, 4]); // => 10
+sum.apply(null, [1, 2, 3, 4]); // => 10
                         </code></pre>
                     </div>
                     <div class="fragment column">
@@ -593,7 +599,7 @@ var Country = {
                         <pre><code data-trim>
 var name = 'U.S.A', isMother = false;
 var getPresident = function() { return '#000'; }
-var invade = function(c) { throw('Stack Overflow!');  }
+var invade = function(c) { throw new Error('Stack Overflow!');  }
 var Country = {
     name: name, isMother: isMother,
     getPresident: getPresident, invade: invade
@@ -604,7 +610,7 @@ var Country = {
                         <pre><code data-trim>
 var [name, isMother] = ['U.S.A.', false];
 var getPresident = () => '#000';
-var invade c => throw('Stack Overflow!');
+var invade = c => { throw new Error('Stack Overflow!'); }
 var Country = { name, isMother, getPresident, invade }
                         </code></pre>
                     </div>
@@ -628,7 +634,9 @@ var year = celebrate().y;
                      </div>
                      <div class="fragment column es6">
                          <pre><code data-trim>
-celebrate () => { d: 25, m: 5, y: 2014 };
+var celebrate = () => {
+    return { d: 25, m: 5, y: 2014 };
+}
 var { d: day, m: month, y: year } = celebrate();
                          </code></pre>
                      </div>
@@ -749,7 +757,7 @@ export const PI = 3.141593;
                               <pre><code data-trim>
 export * from 'lib/math';
 export const e = 2.71828182846;
-export ln x => Math.log(x);
+export var ln = x => Math.log(x);
 export default x => Math.exp(x);
                               </code></pre>
                           </div>
@@ -834,7 +842,7 @@ gen.next().value; // => 9
 gen.next().value; // => 9
                           </code></pre>
                       </div>
-                      <img data-src="img/random.gif" class="fragment">
+                      <img data-src="img/random.gif" class="fragment" alt="">
                   </section>
                   <section>
                       <h2>Proxy</h2>
@@ -859,7 +867,7 @@ return developer.salary; // => 4000
                           </code></pre>
                           <pre class="fragment" data-fragment-index="4"><code data-trim>
 developer.salary = 2000;
-return developer.salary; // => 1500
+return developer.salary; // => 1750
                           </code></pre>
                       </div>
                    </section>
@@ -941,7 +949,7 @@ var Person = {
                            <li class="fragment" data-fragment-index="3">iOS8 Safari - 20%</li>
                            <li class="fragment" data-fragment-index="4">
                                <p style="margin-top: 0; margin-bottom: 0;">Internet Explorer 11 - 15%</p>
-                               <img data-src="img/ie.jpg" class="fragment" data-fragment-index="4">
+                               <img data-src="img/ie.jpg" class="fragment" data-fragment-index="4" alt="">
                            </li>
                        </ul>
                    </section>
